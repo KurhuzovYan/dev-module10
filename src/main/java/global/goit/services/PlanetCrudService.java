@@ -15,7 +15,7 @@ public class PlanetCrudService {
             session.persist(planet);
             transaction.commit();
         } catch (SessionException e) {
-            System.out.println("Error = " + e);
+            throw new RuntimeException();
         }
     }
 
