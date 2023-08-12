@@ -4,20 +4,30 @@ import global.goit.entities.Client;
 import global.goit.entities.Planet;
 import global.goit.services.ClientCrudService;
 import global.goit.services.PlanetCrudService;
-import org.flywaydb.core.Flyway;
+import global.goit.utils.HibernateUtils;
+import global.goit.utils.MigrationUtils;
 
 public class Launcher {
     public static void main(String[] args) {
-        Flyway flyway = Flyway
-                .configure()
-                .dataSource("jdbc:postgresql://35.238.176.199:5432/database_yan", "dev12", "dev12thebest")
-                .load();
 
-        flyway.migrate();
+        MigrationUtils.checkMigration();
 
-        new ClientCrudService().createClient(new Client("Liza"));
-        new ClientCrudService().deleteClient(2);
-        new PlanetCrudService().createPlanet(new Planet("VENUS2", "Asada"));
-        new PlanetCrudService().deletePlanet("MARS");
+        ClientCrudService clientService = new ClientCrudService();
+
+        clientService.createClient(new Client("Liza"));
+        System.out.println(clientService.readClient(4L));
+        clientService.updateClient(5, "Viktor");
+        clientService.deleteClient(2);
+        clientService.getAllClients().forEach(System.out::println);
+
+        PlanetCrudService planetService = new PlanetCrudService();
+
+        planetService.createPlanet(new Planet("VENUS2", "ASADA"));
+        System.out.println(planetService.readPlanet("JUP7"));
+        planetService.updatePlanet("VENUS2", "ASAP6");
+        planetService.deletePlanet("MARS");
+        planetService.getAllPlanets().forEach(System.out::println);
+
+        HibernateUtils.getInstance().close();
     }
 }

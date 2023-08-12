@@ -1,7 +1,9 @@
 package global.goit.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "client")
 public class Client {
@@ -19,14 +21,6 @@ public class Client {
 
     public Client(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
